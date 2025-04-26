@@ -60,6 +60,7 @@ pipeline {
                         cat deploy/deploy.yaml
                         git add deploy/deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
+			git pull origin master
                         git push https://$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repo.git HEAD:master
                     '''
                 }
