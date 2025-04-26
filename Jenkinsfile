@@ -47,21 +47,21 @@ pipeline {
             }
         }
         
-        stage('Update K8S manifest & push to Repo'){
+        stage('Update K8S manifest & push to Repo') {
             steps {
-                script{
-                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        sh '''
-                        cat deploy/deploy.yaml
+                withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+                    sh '''
+                        git config --global user.email "kumar.rishu892@gmail.com"
+                        git config --global user.name "$GIT_USERNAME"
+			cat deploy/deploy.yaml
 			current_version=`cat deploy/deploy.yaml | grep image | cut -d':' -f 3`
-                        sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
+			sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
                         cat deploy/deploy.yaml
                         git add deploy/deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
-                        git remote -v
-                        git push https://github.com/Rajat892/cicd-demo-manifests-repo.git HEAD:main
-                        '''                        
-                    }
+                        git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/Rajat892/cicd-demo-manifests-repo.git
+                        git push origin HEAD:main
+                    '''
                 }
             }
         }
