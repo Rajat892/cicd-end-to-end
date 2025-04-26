@@ -53,15 +53,23 @@ pipeline {
                     sh '''
                         git config --global user.email "kumar.rishu892@gmail.com"
                         git config --global user.name "$GIT_USERNAME"
-			git fetch origin
+			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repo.git
+   			git fetch origin
+			# Make the changes
+                	echo "📜 Before updating deploy.yaml:"
+
+                 	current_version=$(grep image deploy/deploy.yaml | cut -d':' -f3)
+                	echo "🔢 Current image version: ${current_version}"
+                	sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
+
+			echo "📜 After updating deploy.yaml:"
 			cat deploy/deploy.yaml
-			current_version=`cat deploy/deploy.yaml | grep image | cut -d':' -f 3`
-			sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
-                        cat deploy/deploy.yaml
                         git add deploy/deploy.yaml
+			
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
-			git pull origin master
-                        git push https://$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repo.git HEAD:master
+			git pull origin master --rebase || echo "⚠️ Nothing to rebase."
+			
+                        git push origin HEAD:master
                     '''
                 }
             }
