@@ -28,16 +28,6 @@ pipeline {
             }
         }
 
-        #stage('Push the artifacts'){
-        #   steps{
-        #        script{
-        #            sh '''
-        #            echo 'Push to Repo'
-        #            docker push rajatkumar216/myfirstrepo:${BUILD_NUMBER}
-        #            '''
-        #        }
-        #    }
-        #}
         stage('Build and Push Docker Image') {
             steps {
                 script {
