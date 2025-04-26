@@ -53,6 +53,7 @@ pipeline {
                     sh '''
                         git config --global user.email "kumar.rishu892@gmail.com"
                         git config --global user.name "$GIT_USERNAME"
+			git pull origin main --rebase
 			cat deploy/deploy.yaml
 			current_version=`cat deploy/deploy.yaml | grep image | cut -d':' -f 3`
 			sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
