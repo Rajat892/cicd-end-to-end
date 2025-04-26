@@ -58,7 +58,7 @@ pipeline {
                         git config --global user.email "kumar.rishu892@gmail.com"
                         git config --global user.name "$GIT_USERNAME"
 			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
-   			git fetch origin
+   			#git fetch origin
 			# Make the changes
                 	echo "📜 Before updating deploy.yaml:"
 			cd deploy
