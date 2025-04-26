@@ -6,6 +6,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
 	DOCKER_IMAGE = "rajatkumar216/myfirstrepo:${BUILD_NUMBER}"
+	GIT_USERNAME= "Rajat892"
     }
     stages {
         
@@ -49,7 +50,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo'){
             steps {
                 script{
-                    withCredentials([usernamePassword(credentialsId: 'd2f8ce69-4988-403b-b65d-4970ed5fb9de', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'github', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         cat deploy/deploy.yaml
 			current_version=`cat deploy/deploy.yaml | grep image | cut -d':' -f 3`
