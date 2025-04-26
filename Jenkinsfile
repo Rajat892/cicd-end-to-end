@@ -4,8 +4,9 @@ pipeline {
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+	DOCKER_IMAGE = "rajatkumar216/myfirstrepo:${BUILD_NUMBER}"
     }
-    
     stages {
         
         stage('Checkout'){
@@ -27,16 +28,25 @@ pipeline {
             }
         }
 
-        stage('Push the artifacts'){
-           steps{
-                script{
-                    sh '''
-                    echo 'Push to Repo'
-                    docker push rajatkumar216/myfirstrepo:${BUILD_NUMBER}
-                    '''
+        #stage('Push the artifacts'){
+        #   steps{
+        #        script{
+        #            sh '''
+        #            echo 'Push to Repo'
+        #            docker push rajatkumar216/myfirstrepo:${BUILD_NUMBER}
+        #            '''
+        #        }
+        #    }
+        #}
+        stage('Build and Push Docker Image') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
+                        def docker_image = docker.image("${DOCKER_IMAGE}")
+                        docker_image.push()
+                    }
                 }
             }
-        }
         
         stage('Checkout K8S manifest SCM'){
             steps {
