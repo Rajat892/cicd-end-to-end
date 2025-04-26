@@ -59,6 +59,11 @@ pipeline {
                         git config --global user.name "$GIT_USERNAME"
 			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
    			#git fetch origin
+		        git rebase origin/main || (
+		    	echo "⚠️ Conflict detected. Attempting auto-resolve."
+		    	git add .
+		    	git rebase --continue
+			)
 			# Make the changes
                 	echo "📜 Before updating deploy.yaml:"
 			cd deploy
