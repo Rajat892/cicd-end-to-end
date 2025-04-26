@@ -53,7 +53,7 @@ pipeline {
                         sh '''
                         cat deploy/deploy.yaml
 			current_version=`cat deploy/deploy.yaml | grep image | cut -d':' -f 3`
-                        sed -i '' "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
+                        sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
                         cat deploy/deploy.yaml
                         git add deploy/deploy.yaml
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
