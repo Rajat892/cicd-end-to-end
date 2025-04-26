@@ -57,7 +57,7 @@ pipeline {
                     sh '''
                         git config --global user.email "kumar.rishu892@gmail.com"
                         git config --global user.name "$GIT_USERNAME"
-			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repo.git
+			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
    			git fetch origin
 			# Make the changes
                 	echo "📜 Before updating deploy.yaml:"
@@ -71,9 +71,9 @@ pipeline {
                         git add deploy.yaml
 			
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
-			#git pull origin master --rebase || echo "⚠️ Nothing to rebase."
+			#git pull origin main --rebase || echo "⚠️ Nothing to rebase."
 			
-                        git push origin HEAD:master
+                        git push origin HEAD:main
                     '''
                 }
             }
