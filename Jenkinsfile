@@ -71,7 +71,7 @@ pipeline {
                         git add deploy.yaml
 			
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
-			git pull origin master --rebase || echo "⚠️ Nothing to rebase."
+			#git pull origin master --rebase || echo "⚠️ Nothing to rebase."
 			
                         git push origin HEAD:master
                     '''
