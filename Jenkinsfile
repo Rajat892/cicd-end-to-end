@@ -10,7 +10,7 @@ pipeline {
         
         stage('Checkout'){
            steps {
-                git credentialsId: 'c055e959-5cfa-44f6-b86f-4cef2b5587d0', 
+                git credentialsId: 'd2f8ce69-4988-403b-b65d-4970ed5fb9de', 
                 url: 'https://github.com/Rajat892/cicd-end-to-end',
                 branch: 'main'
            }
@@ -21,7 +21,7 @@ pipeline {
                 script{
                     sh '''
                     echo 'Buid Docker Image'
-                    docker build -t rajat/cicd-e2e:${BUILD_NUMBER} .
+                    docker build -t rajatkumar216/myfirstrepo:${BUILD_NUMBER} .
                     '''
                 }
             }
@@ -32,7 +32,7 @@ pipeline {
                 script{
                     sh '''
                     echo 'Push to Repo'
-                    docker push rajat/cicd-e2e:${BUILD_NUMBER}
+                    docker push rajatkumar216/myfirstrepo:${BUILD_NUMBER}
                     '''
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
         
         stage('Checkout K8S manifest SCM'){
             steps {
-                git credentialsId: 'c055e959-5cfa-44f6-b86f-4cef2b5587d0', 
+                git credentialsId: 'd2f8ce69-4988-403b-b65d-4970ed5fb9de', 
                 url: 'https://github.com/Rajat892/cicd-end-to-end.git',
                 branch: 'main'
             }
@@ -49,7 +49,7 @@ pipeline {
         stage('Update K8S manifest & push to Repo'){
             steps {
                 script{
-                    withCredentials([usernamePassword(credentialsId: 'c055e959-5cfa-44f6-b86f-4cef2b5587d0', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                    withCredentials([usernamePassword(credentialsId: 'd2f8ce69-4988-403b-b65d-4970ed5fb9de', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
                         sh '''
                         cat deploy.yaml
                         sed -i '' "s/32/${BUILD_NUMBER}/g" deploy.yaml
