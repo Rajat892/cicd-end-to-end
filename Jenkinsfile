@@ -61,14 +61,14 @@ pipeline {
    			git fetch origin
 			# Make the changes
                 	echo "📜 Before updating deploy.yaml:"
-
-                 	current_version=$(grep image deploy/deploy.yaml | cut -d':' -f3)
+			cd deploy
+                 	current_version=$(grep image deploy.yaml | cut -d':' -f3)
                 	echo "🔢 Current image version: ${current_version}"
-                	sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy/deploy.yaml
+                	sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy.yaml
 
 			echo "📜 After updating deploy.yaml:"
-			cat deploy/deploy.yaml
-                        git add deploy/deploy.yaml
+			cat deploy.yaml
+                        git add deploy.yaml
 			
                         git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
 			git pull origin master --rebase || echo "⚠️ Nothing to rebase."
