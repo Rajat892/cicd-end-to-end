@@ -9,11 +9,6 @@ pipeline {
 	GIT_USERNAME= "Rajat892"
     }
     stages {
-        stage('Clean Workspace') {
-            steps {
-                cleanWs()
-            }
-        }
         stage('Checkout'){
            steps {
                 git credentialsId: 'd2f8ce69-4988-403b-b65d-4970ed5fb9de', 
