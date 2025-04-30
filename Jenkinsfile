@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Clean Workspace') {
             steps {
+		cleanWs()
                 deleteDir() // Deletes entire workspace to avoid any dirty state
             }
         }
