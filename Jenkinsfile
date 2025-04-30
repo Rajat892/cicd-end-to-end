@@ -54,32 +54,29 @@ pipeline {
         stage('Update K8S manifest & push to Repo') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
-                    sh '''
-                        git config --global user.email "kumar.rishu892@gmail.com"
-                        git config --global user.name "$GIT_USERNAME"
-			git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
-   			git fetch origin master
-		        git rebase origin/master || (
-		    	echo "⚠️ Conflict detected. Attempting auto-resolve."
-		    	git add .
-		    	git rebase --continue
-			)
-			# Make the changes
+    		    sh '''
+                	set -e  # Exit on error
+
+               		git config --global user.email "kumar.rishu892@gmail.com"
+                	git config --global user.name "$GIT_USERNAME"
+                	git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
+
+                	git checkout master
+                	git pull --rebase --strategy=recursive -X theirs origin master
+
                 	echo "📜 Before updating deploy.yaml:"
-			cd deploy
-                 	current_version=$(grep image deploy.yaml | cut -d':' -f3)
+                	cd deploy
+                	current_version=$(grep image deploy.yaml | cut -d':' -f3)
                 	echo "🔢 Current image version: ${current_version}"
                 	sed -i "s/${current_version}/${BUILD_NUMBER}/g" deploy.yaml
 
-			echo "📜 After updating deploy.yaml:"
-			cat deploy.yaml
-                        git add deploy.yaml
-			
-                        git commit -m 'Updated the deploy yaml | Jenkins Pipeline'
-			#git pull origin main --rebase || echo "⚠️ Nothing to rebase."
-			
-                        git push origin HEAD:master
-                    '''
+                	echo "📜 After updating deploy.yaml:"
+                	cat deploy.yaml
+                	git add deploy.yaml
+                	git commit -m '✅ Updated the deploy.yaml via Jenkins Pipeline'
+
+                	git push origin HEAD:master
+            	     ''' 
                 }
             }
         }
