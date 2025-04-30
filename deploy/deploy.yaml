@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: todo
-        image: rajatkumar216/myfirstrepo:v1
+        image: rajatkumar216/myfirstrepo:1
         ports:
         - containerPort: 8000
