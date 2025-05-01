@@ -1,6 +1,11 @@
 pipeline {
     
-    agent any 
+    agent {
+	    docker{
+		    image: 'rajatkumar216/docker-git:v1'
+		    args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
+	    }
+    } 
     
     environment {
         IMAGE_TAG = "${BUILD_NUMBER}"
