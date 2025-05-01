@@ -51,8 +51,8 @@ pipeline {
 
                		git config --global user.email "kumar.rishu892@gmail.com"
                 	git config --global user.name "$GIT_USERNAME"
+		 	git config --global --add safe.directory /var/lib/jenkins/workspace/to-do-app
                 	git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
-
                 	git checkout master
                 	git pull --rebase --strategy=recursive -X theirs origin master
 
