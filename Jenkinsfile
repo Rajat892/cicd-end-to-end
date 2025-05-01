@@ -54,7 +54,6 @@ pipeline {
 		 	git config --global --add safe.directory /var/lib/jenkins/workspace/to-do-app
                 	git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
                 	git checkout master
-                	git pull --rebase --strategy=recursive -X theirs origin master
 
                 	echo "📜 Before updating deploy.yaml:"
                 	cd deploy
