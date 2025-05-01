@@ -54,7 +54,7 @@ pipeline {
 		 	git config --global --add safe.directory /var/lib/jenkins/workspace/to-do-app
                 	git remote set-url origin https://$GIT_USERNAME:$GIT_PASSWORD@github.com/$GIT_USERNAME/cicd-demo-manifests-repository.git
                 	git checkout master
-
+			git pull origin master --rebase
                 	echo "📜 Before updating deploy.yaml:"
                 	cd deploy
                 	current_version=$(grep image deploy.yaml | cut -d':' -f3)
@@ -65,8 +65,8 @@ pipeline {
                 	cat deploy.yaml
                 	git add deploy.yaml
                 	git commit -m '✅ Updated the deploy.yaml via Jenkins Pipeline'
-
-                	git push origin HEAD:master
+			
+                	git push origin HEAD:master --force
             	     ''' 
                 }
             }
