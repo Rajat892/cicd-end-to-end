@@ -1,8 +1,8 @@
 pipeline {
     
     agent {
-	    docker{
-		    image: 'rajatkumar216/docker-git:v1'
+	    docker {
+		    image 'rajatkumar216/docker-git:v1'
 		    args '--user root -v /var/run/docker.sock:/var/run/docker.sock'
 	    }
     } 
