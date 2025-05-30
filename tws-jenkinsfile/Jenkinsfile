@@ -1,0 +1,35 @@
+@Library("my-lib") _
+pipeline{
+    agent { label "new-agent" }
+    
+    stages{
+        stage("Code-clone") {
+            steps{
+                script{
+                    clone("https://github.com/Rajat892/cicd-end-to-end.git","master")
+                }
+            }
+        }
+        stage("Build") {
+            steps{
+                script{
+                    docker_build("rajatkumar416","todo-app","latest")
+                }
+            }
+        }
+        stage("DockerPush") {
+            steps{
+
+                script{
+                    docker_push("rajatkumar416","todo-app","latest")
+                }
+            }
+        }
+        stage("Deploy") {
+            steps{
+                echo "Deploy"
+                // sh "docker run -d -p 8000:8000 todo-app:latest"
+            }
+        }
+    }
+}
